@@ -1,0 +1,43 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Blog and Shop</title>
+    <link rel="stylesheet" href="{% static 'styles.css' %}">
+</head>
+
+<body>
+    <header>
+        <h1>My Blog and Shop</h1>
+        <nav>
+            <ul>
+                    <li><a href="{% url 'home' %}">Home</a> </li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'profile' %}">Profile</a></li>
+{#                    <li><a href="{% url 'edit_profile' %}">Edit profile</a></li>#}
+                    <li><a href="{% url 'user_logout' %}">Logout</a></li>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </nav>
+    </header>
+
+    <div>
+        {% block content %}
+
+            <p> Its Works</p>
+
+        {% endblock %}
+    </div>
+
+    <!-- Add your footer here -->
+</body>
+
+<footer>
+    <p>© 2023 My Blog and Shop</p>
+</footer>
+
+</html>

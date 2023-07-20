@@ -1,0 +1,12 @@
+{% extends 'home-page.html' %}
+
+{% block content %}
+
+<h1>Welcome, {{ user.username }}</h1>
+<p>Email: {{ user.email }}</p>
+<p>Email: {{ user.profile_pic }}</p>
+<!-- Display other user profile details as needed -->
+<a href="{% url 'edit_profile' %}">Edit Profile</a>
+<a href="{% url 'delete_profile' %}">Delete Profile</a>
+
+{% endblock %}
