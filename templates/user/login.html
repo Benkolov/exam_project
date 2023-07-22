@@ -2,14 +2,24 @@
 
 {% block content %}
 
-<form method="post">
-  {% csrf_token %}
-  {% if error_message %}
-    <p>{{ error_message }}</p>
-  {% endif %}
-  <input type="text" name="username" placeholder="Username">
-  <input type="password" name="password" placeholder="Password">
-  <input type="submit" value="Login">
-</form>
+
+<main class="hoc container clear">
+
+    <!-- main body for login-page -->
+    <!-- ################################################################################################ -->
+    <form method="post" class="styled-form">
+        {% csrf_token %}
+        {% if error_message %}
+            <p class="error-message">{{ error_message }}</p>
+        {% endif %}
+        <input type="text" name="email" placeholder="Email" class="input-field">
+        <input type="password" name="password" placeholder="Password" class="input-field">
+        <input type="submit" value="Login" class="login-button">
+    </form>
+    <!-- ################################################################################################ -->
+    <!-- / main body for login-page -->
+    <div class="clear"></div>
+</main>
+
 
 {% endblock %}

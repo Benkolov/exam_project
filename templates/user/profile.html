@@ -2,11 +2,19 @@
 
 {% block content %}
 
-<h1>Welcome, {{ user.username }}</h1>
-<p>Email: {{ user.email }}</p>
+<article class="one_quarter first">
+<h1 class="heading font-x3">Welcome, {{ user.username }}</h1>
+<p class="btmspace-30">Email: {{ user.email }}</p>
 <p>Email: {{ user.profile_pic }}</p>
 <!-- Display other user profile details as needed -->
 <a href="{% url 'edit_profile' %}">Edit Profile</a>
 <a href="{% url 'delete_profile' %}">Delete Profile</a>
 
 {% endblock %}
+    </article>
+
+<article class="one_quarter first">
+      <h6 class="heading font-x3">Статия най-нова тук</h6>
+      <p class="btmspace-30">Начало на текст за статията ТУК <a href="#">[&hellip;]</a></p>
+      <footer><a class="btn" href="#">Read More &raquo;</a></footer>
+    </article>

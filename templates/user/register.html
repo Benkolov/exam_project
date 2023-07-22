@@ -2,10 +2,33 @@
 
 {% block content %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <input type="submit" value="Register">
-</form>
-
+<main class="hoc container clear">
+<!--<form method="post" class="styled-form">-->
+<!--  {% csrf_token %}-->
+<!--  {{ form.as_p }}-->
+<!--  <input type="submit" value="Register">-->
+<!--</form>-->
+  <form method="post" class="styled-form">
+    {% csrf_token %}
+    <div class="form-field">
+      <label for="{{ form.username.id_for_label }}">Username:</label>
+      <input type="text" name="{{ form.username.name }}" id="{{ form.username.id_for_label }}" placeholder="Enter your username" required>
+    </div>
+    <div class="form-field">
+      <label for="{{ form.email.id_for_label }}">Email:</label>
+      <input type="email" name="{{ form.email.name }}" id="{{ form.email.id_for_label }}" placeholder="Enter your email" required>
+    </div>
+    <div class="form-field">
+      <label for="{{ form.password1.id_for_label }}">Password:</label>
+      <input type="password" name="{{ form.password1.name }}" id="{{ form.password1.id_for_label }}" placeholder="Enter your password" required>
+    </div>
+    <div class="form-field">
+      <label for="{{ form.password2.id_for_label }}">Confirm Password:</label>
+      <input type="password" name="{{ form.password2.name }}" id="{{ form.password2.id_for_label }}" placeholder="Confirm your password" required>
+    </div>
+    <input type="submit" value="Register">
+  </form>
+<div class="clear"></div>
+  </main>
 {% endblock %}
+
