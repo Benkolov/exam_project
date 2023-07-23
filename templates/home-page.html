@@ -8,7 +8,6 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="{% static 'styles/layout.css' %}" rel="stylesheet" type="text/css" media="all">
-
 </head>
 
 <body id="top">
@@ -73,10 +72,10 @@
 
 {% block content %}
     <div class="wrapper row3">
-    <main class="hoc container clear">
+        <main class="hoc container clear">
 
             <article class="one_quarter first">
-                <h6 class="heading font-x3">{{ latest_post.category }}</h6>
+                <h6 class="heading font-x3">{{ latest_post.title }}</h6>
                 <p class="btmspace-30">{{ latest_post.content|truncatewords:40 }} <a href="#">[&hellip;]</a></p>
                 <footer><a class="btn" href="#">Read More &raquo;</a></footer>
             </article>
@@ -84,16 +83,16 @@
 
         {% for post in posts %}
 
-                <article class="one_quarter">
-                    <h6 class="heading">{{ post.title }} <a href="#">{{ post.category }}</a></h6>
+            <article class="one_quarter">
+                <h6 class="heading">{{ post.title }} <a href="#">{{ post.category }}</a></h6>
+
                 {% if post.photo %}
-
-                    <img class="btmspace-15" src="{{ post.photo }}" alt="{{ post.title }}">
-
+                    <img class="btmspace-15" src="{{ post.photo.url }}" alt="{{ post.title }}">
                 {% endif %}
-                    <p class="btmspace-30">{{ post.content|truncatewords:40 }} <a href="{% url 'post_detail' post.pk %}">[&hellip;]</a></p>
+
+                <p class="btmspace-30">{{ post.content|truncatewords:40 }} <a href="{% url 'post_detail' post.pk %}">[&hellip;]</a></p>
                     <footer><a class="btn" href="{% url 'post_detail' post.pk %}">Read More &raquo;</a></footer>
-                </article>
+            </article>
 
             {% endfor %}
         <div class="clear"></div>
@@ -179,7 +178,7 @@
 <div class="wrapper row5">
     <div id="copyright" class="hoc clear">
         <!-- ################################################################################################ -->
-        {#    <p class="fl_left">Copyright &copy; 2016 - All Rights Reserved - <a href="#">Domain Name</a></p>#}
+        {#    <p class="fl_left">Copyright &copy; 2023 - All Rights Reserved - <a href="#">Domain Name</a></p>#}
         <!-- ################################################################################################ -->
     </div>
 </div>
@@ -187,13 +186,10 @@
 
 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a>
 
-
         <!-- JAVASCRIPTS -->
-<script src="scripts/jquery.min.js"></script>
-<script src="scripts/jquery.backtotop.js"></script>
-<script src="scripts/jquery.mobilemenu.js"></script>
-
-
+<script src="static/scripts/jquery.min.js"></script>
+<script src="static/scripts/jquery.backtotop.js"></script>
+<script src="static/scripts/jquery.mobilemenu.js"></script>
 
 
 </body>

@@ -6,17 +6,19 @@
   <div class="profile-details">
     <h1 class="heading font-x3">Welcome, {{ user.username }}</h1>
     <p class="btmspace-30">Email: {{ user.email }}</p>
-    {% if user.profile_pic %}
-      <img src="{{ user.profile_pic.url }}" alt="Profile Picture">
-    {% else %}
-      <p>No profile picture available</p>
-    {% endif %}
+
+      {% if user.profile_pic %}
+            <img src="{{ user.profile_pic.url }}" alt="Profile Picture">
+      {% else %}
+            <p>No profile picture available</p>
+      {% endif %}
     <!-- Display other user profile details as needed -->
 
     <div class="profile-links">
       <a href="{% url 'edit_profile' %}" class="btn">Edit Profile</a>
       <a href="{% url 'delete_profile' %}" class="btn">Delete Profile</a>
     </div>
+
   </div>
   <div class="clear"></div>
 </main>
