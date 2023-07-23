@@ -8,7 +8,7 @@
 <!--  {{ form.as_p }}-->
 <!--  <input type="submit" value="Register">-->
 <!--</form>-->
-  <form method="post" class="styled-form">
+  <form method="post" enctype="multipart/form-data" class="styled-form">
     {% csrf_token %}
     <div class="form-field">
       <label for="{{ form.username.id_for_label }}">Username:</label>

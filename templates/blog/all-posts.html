@@ -1,0 +1,16 @@
+{% extends 'home-page.html' %}
+
+{% block content %}
+<main class="hoc container clear">
+    <h1>Всички публикации</h1>
+    <ul class="post-list">
+        {% for post in posts %}
+            <li class="post-item">
+                <h2>{{ post.title }}</h2>
+                <p class="post-content">{{ post.content|truncatewords:50 }}</p>
+                <p class="read-more"><a href="{% url 'post_detail' post.pk %}">Read more &raquo;</a></p>
+            </li>
+        {% endfor %}
+    </ul>
+</main>
+{% endblock %}

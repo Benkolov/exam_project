@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from django.urls import reverse_lazy
@@ -15,7 +16,7 @@ SECRET_KEY = 'django-insecure-$1lu!=3t@eim9uvcsvusxpcneb%9n=4rh^hmx)h(c&3(f=1&r4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -117,6 +118,11 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [BASE_DIR / "static"]
 
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
@@ -126,6 +132,8 @@ AUTH_USER_MODEL = 'user.CustomUser'
 
 LOGIN_REDIRECT_URL = reverse_lazy('profile')
 LOGOUT_REDIRECT_URL = reverse_lazy('home')
+LOGIN_URL = 'login'
+
 
 SESSION_COOKIE_NAME = 'exam_project_session'
 ADMIN_SESSION_COOKIE_NAME = 'exam_project_admin_session'

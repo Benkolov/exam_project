@@ -3,10 +3,9 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout as user_logout
-from django.urls import reverse
 
 from .forms import UserRegistrationForm, UserEditForm, UserProfileForm
-from .models import CustomUser
+
 from .. import settings
 
 
@@ -18,24 +17,24 @@ def register(request):
             return redirect('login')
     else:
         form = UserRegistrationForm()
-    return render(request, 'registration/../../templates/user/register.html', {'form': form})
+    return render(request, 'user/register.html', {'form': form})
 
 
 def user_login(request):
     if request.method == 'POST':
-        username = request.POST['username']
+        username = request.POST['email']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            # Проверка дали потребителя е персонал от администрацията
-            if user.is_staff:
-                # Установяване на бисквитка за сесия в администрацията
-                response = HttpResponseRedirect(reverse('admin:index'))
-                response.set_cookie(settings.ADMIN_SESSION_COOKIE_NAME, value='admin_session_value')
-                return response
+
+            next_url = request.POST.get('next')
+
+            if next_url:
+                return redirect(next_url)
             else:
-                return redirect('profile')
+                return redirect('home')
+
         else:
             return render(request, 'user/login.html', {'error_message': 'Invalid login credentials'})
     else:
@@ -47,9 +46,10 @@ def profile(request):
     return render(request, 'user/profile.html')
 
 
+@login_required()
 def user_logout_view(request):
     user_logout(request)
-    # Премахване на бисквитката за сесия в администрацията
+
     response = redirect('home')
     response.delete_cookie(settings.ADMIN_SESSION_COOKIE_NAME)
     return response

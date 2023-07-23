@@ -26,6 +26,7 @@ class Post(models.Model):
     tags = models.ManyToManyField(Tag)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    photo = models.ImageField(upload_to='post_photos/', null=True, blank=True)
 
     def __str__(self):
         return self.title
