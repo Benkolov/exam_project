@@ -1,0 +1,18 @@
+{% extends 'home-page.html' %}
+
+{% block content %}
+
+    <main class="hoc container clear">
+    <h1>Всички публикации с таг "{{ tag.name }}":</h1>
+    <ul class="post-list">
+    {% for post in posts %}
+        <li class="post-item">
+        <h2 class="heading">{{ post.title }}</h2>
+
+        <p class="post-content">>{{ post.content|truncatewords:50 }}</p>
+        <a href="{% url 'post_detail' post.pk %}">Read More</a>
+        </li>
+    {% endfor %}
+    </ul>
+    </main>
+{% endblock %}

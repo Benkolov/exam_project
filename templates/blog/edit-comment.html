@@ -1,0 +1,12 @@
+{% extends 'home-page.html' %}
+
+{% block content %}
+<main class="hoc container clear">
+    <h3>Edit Comment</h3>
+    <form method="post" class="comment-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="submit-btn">Save Changes</button>
+    </form>
+</main>
+{% endblock %}

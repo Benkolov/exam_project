@@ -6,17 +6,32 @@
     <h2>Автор: {{ post.author }}</h2>
     <p class="post-content">{{ post.content }}</p>
     <h2>{{ post.created_at }}</h2>
-    <h2>{{ post.tags }}</h2>
+    <h2>
+        {% for tag in post.tags.all %}
+            <a href="{% url 'posts_by_tag' tag.slug %}">{{ tag.name }}</a>
+        {% endfor %}
+    </h2>
     <!-- Add other post details here -->
 
-    <h3>Comments:</h3>
-    <ul class="comment-list">
-        {% for comment in comments %}
-            <li class="comment-item">
-                <p>{{ comment.content }} - {{ comment.author }}</p>
-            </li>
-        {% endfor %}
-    </ul>
+<h3>Comments:</h3>
+<ul class="comment-list">
+    {% for comment in comments %}
+        <li class="comment-item">
+            <p>{{ comment.content }} - {{ comment.author }}</p>
+            {% if user.is_authenticated and user == comment.author %}
+                <!-- Add Edit Comment Form -->
+                <a href="{% url 'edit_comment' post_pk=post.pk comment_pk=comment.pk %}">Edit</a>
+
+                <!-- Add Delete Comment Form -->
+                <form method="post" action="{% url 'delete_comment' post.pk comment.pk %}">
+                    {% csrf_token %}
+                    <button type="submit" class="submit-btn">Delete</button>
+                </form>
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
 
     <h3>Add a Comment:</h3>
     <form method="post" class="comment-form">
@@ -26,6 +41,3 @@
     </form>
 </main>
 {% endblock %}
-
-
-

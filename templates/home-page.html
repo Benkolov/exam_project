@@ -15,12 +15,14 @@
     <div class="topspacer bgded overlay" style="background-image: url('{% static "images/background.png" %}')">
 
     <div class="wrapper row0">
+
+                        <!-- TOP BAR -->
         <div id="topbar" class="hoc clear">
             <!-- ################################################################################################ -->
             <div class="fl_left">
                 <ul class="nospace">
-                    <li><i class="fa fa-phone"></i> +00 (123) 456 7890</li>
-                    <li><i class="fa fa-envelope-o"></i> info@domain.com</li>
+                    <li><i class="fa fa-phone"></i> +359</li>
+                    <li><i class="fa fa-envelope-o"></i> info@exoterra</li>
                 </ul>
             </div>
             <div class="fl_right">
@@ -39,9 +41,13 @@
         </div>
     </div>
 
+
+
+
+                <!-- HEADER -->
     <header id="header" class="hoc clear">
         <div id="logo" class="fl_left">
-            <h1>ExoTerra Chronicles</h1>
+            <h1>ExoTerra</h1>
             <div>
             <nav id="mainav" class="fl_left">
                 <ul class="clear">
@@ -56,9 +62,7 @@
                     {% for category in categories %}
                         <li><a href="{% url 'posts_by_category' category.id %}">{{ category.name }}</a></li>
                     {% endfor %}
-{#                    <li><a href="{% url 'exo_category' %}">Екзопланети</a></li>#}
-{#                    <li><a href="#">Космически телескопи</a></li>#}
-{#                    <li><a href="#">Слънчева система</a></li>#}
+
                 </ul>
                     </li>
                     <li><a href="#">Online Shop</a></li>
@@ -70,15 +74,34 @@
         </div>
     </header>
 
+
+
+                <!-- PAGE INTRO -->
+        <div id="pageintro" class="hoc clear">
+    <article>
+      <h2 class="heading">ExoTerra Chronicles</h2>
+      <p>Открийте съкровището на галактиката - светът на екзопланетите!</p>
+      <footer>
+        <ul class="nospace inline pushright">
+          <li><a class="btn" href="#">Condimentum</a></li>
+          <li><a class="btn inverse" href="#">Maximus</a></li>
+        </ul>
+      </footer>
+    </article>
+  </div>
+
 </div>
+
+
+
 
 {% block content %}
     <div class="wrapper row3">
         <main class="hoc container clear">
 
             <article class="one_quarter first">
-                <h6 class="heading font-x3">{{ latest_post.title }}</h6>
-                <p class="btmspace-30">{{ latest_post.content|truncatewords:40 }} <a href="#">[&hellip;]</a></p>
+                <h6 class="heading font-x3">{{ latest_post.title|truncatechars:20 }}</h6>
+                <p class="btmspace-30">{{ latest_post.content|truncatewords:30 }} <a href="#">[&hellip;]</a></p>
                 <footer><a class="btn" href="#">Read More &raquo;</a></footer>
             </article>
 
@@ -86,14 +109,14 @@
         {% for post in posts %}
 
             <article class="one_quarter">
-                <h6 class="heading">{{ post.title }} <a href="#">{{ post.category }}</a></h6>
+                <h6 class="heading">{{ post.title |truncatechars:20 }} <a href="#">{{ post.category|truncatewords:1 }}</a></h6>
 
                 {% if post.photo %}
                     <img class="btmspace-15" src="{{ post.photo.url }}" alt="{{ post.title }}">
                 {% endif %}
 
-                <p class="btmspace-30">{{ post.content|truncatewords:40 }} <a href="{% url 'post_detail' post.pk %}">[&hellip;]</a></p>
-                    <footer><a class="btn" href="{% url 'post_detail' post.pk %}">Read More &raquo;</a></footer>
+                <p class="btmspace-30">{{ post.content|truncatechars:100 }} <a href="{% url 'post_detail' post.pk %}">[&hellip;]</a></p>
+{#                    <footer><a class="btn" href="{% url 'post_detail' post.pk %}">Read More &raquo;</a></footer>#}
             </article>
 
             {% endfor %}
@@ -125,7 +148,7 @@
                     <li><a href="#">Sitemap</a></li>
                 </ul>
             </nav>
-            <p>Открийте съкровищата на небесата - светът на екзопланетите!</p>
+            <p>Открийте съкровището на галактиката - светът на екзопланетите!</p>
             <ul class="faico clear">
                 <li><a class="faicon-facebook" href="#"><i class="fa fa-facebook"></i></a></li>
                 <li><a class="faicon-twitter" href="#"><i class="fa fa-twitter"></i></a></li>

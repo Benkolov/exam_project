@@ -1,6 +1,7 @@
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
-from exam_project.blog.models import Post, Category
+from exam_project.blog.models import Post, Category, Tag, Comment
 from .forms import CommentForm
 
 
@@ -61,6 +62,18 @@ def page_by_category(request, category_id):
     return render(request, 'blog/posts-by-category.html', context)
 
 
+def posts_by_tag(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    posts = Post.objects.filter(tags=tag)
+
+    context = {
+        'tag': tag,
+        'posts': posts,
+    }
+
+    return render(request, 'blog/posts_by_tag.html', context)
+
+
 def about_page(request):
     categories = get_categories()
 
@@ -96,3 +109,41 @@ def post_detail(request, pk):
     }
 
     return render(request, 'blog/post-detail.html', context)
+
+
+@login_required
+def delete_comment(request, post_pk, comment_pk):
+    comment = get_object_or_404(Comment, pk=comment_pk)
+    if request.user == comment.author:
+        comment.delete()
+        return redirect('post_detail', pk=post_pk)
+    else:
+        # Redirect to some error page or show an error message
+        return HttpResponse("You don't have permission to delete this comment.")
+
+
+@login_required
+def edit_comment(request, post_pk, comment_pk):
+    categories = get_categories()
+    post = get_object_or_404(Post, pk=post_pk)
+    comment = get_object_or_404(Comment, pk=comment_pk)
+
+    if request.user != comment.author:
+        return HttpResponseForbidden("You don't have permission to edit this comment.")
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST, instance=comment)
+        if form.is_valid():
+            form.save()  # Save the changes to the existing comment
+            return redirect('post_detail', pk=post.pk)
+    else:
+        form = CommentForm(instance=comment)
+
+    context = {
+        'post': post,
+        'form': form,
+        'categories': categories,
+    }
+
+    return render(request, 'blog/edit-comment.html', context)
+
