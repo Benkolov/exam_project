@@ -1,4 +1,3 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login
@@ -7,9 +6,12 @@ from django.contrib.auth import logout as user_logout
 from .forms import UserRegistrationForm, UserEditForm, UserProfileForm
 
 from .. import settings
+from ..blog.views import get_categories
 
 
 def register(request):
+    categories = get_categories()
+
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
@@ -17,14 +19,27 @@ def register(request):
             return redirect('login')
     else:
         form = UserRegistrationForm()
-    return render(request, 'user/register.html', {'form': form})
+
+    context = {
+        'form': form,
+        'categories': categories
+    }
+
+    return render(request, 'user/register.html', context)
 
 
 def user_login(request):
+    categories = get_categories()
+
+    context = {
+        'categories': categories,
+    }
+
     if request.method == 'POST':
         username = request.POST['email']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
+
         if user is not None:
             login(request, user)
 
@@ -38,12 +53,16 @@ def user_login(request):
         else:
             return render(request, 'user/login.html', {'error_message': 'Invalid login credentials'})
     else:
-        return render(request, 'user/login.html')
+        return render(request, 'user/login.html', context)
 
 
 @login_required
 def profile(request):
-    return render(request, 'user/profile.html')
+    categories = get_categories()
+
+    context = {'categories': categories}
+
+    return render(request, 'user/profile.html', context)
 
 
 @login_required()
@@ -57,6 +76,8 @@ def user_logout_view(request):
 
 @login_required
 def edit_profile(request):
+    categories = get_categories()
+
     if request.method == 'POST':
         user_form = UserEditForm(request.POST, instance=request.user)
         profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user)
@@ -67,13 +88,25 @@ def edit_profile(request):
     else:
         user_form = UserEditForm(instance=request.user)
         profile_form = UserProfileForm(instance=request.user)
-    return render(request, 'user/edit_profile.html', {'user_form': user_form, 'profile_form': profile_form})
+
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form,
+        'categories': categories
+    }
+
+    return render(request, 'user/edit_profile.html', context)
 
 
 @login_required
 def delete_profile(request):
+    categories = get_categories()
     if request.method == 'POST':
         request.user.delete()
         return redirect('home')
-    return render(request, 'user/delete_profile.html')
 
+    context = {
+        'categories': categories
+    }
+
+    return render(request, 'user/delete_profile.html', context)

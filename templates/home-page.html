@@ -10,8 +10,10 @@
     <link href="{% static 'styles/layout.css' %}" rel="stylesheet" type="text/css" media="all">
 </head>
 
+
 <body id="top">
-<div class="topspacer bgded overlay" style="background-image: url('static/images/background.png')">
+    <div class="topspacer bgded overlay" style="background-image: url('{% static "images/background.png" %}')">
+
     <div class="wrapper row0">
         <div id="topbar" class="hoc clear">
             <!-- ################################################################################################ -->
@@ -34,7 +36,6 @@
                     {% endif %}
                 </ul>
             </div>
-            <!-- ################################################################################################ -->
         </div>
     </div>
 
@@ -55,10 +56,11 @@
                     {% for category in categories %}
                         <li><a href="{% url 'posts_by_category' category.id %}">{{ category.name }}</a></li>
                     {% endfor %}
-{#                    <li><a href="#">Екзопланети</a></li>#}
+{#                    <li><a href="{% url 'exo_category' %}">Екзопланети</a></li>#}
 {#                    <li><a href="#">Космически телескопи</a></li>#}
 {#                    <li><a href="#">Слънчева система</a></li>#}
                 </ul>
+                    </li>
                     <li><a href="#">Online Shop</a></li>
 
 
@@ -104,7 +106,8 @@
 
 
 {#footer#}
-<div class="wrapper row4 bgded overlay" style="background-image:url('static/images/background.png');">
+<div class="topspacer bgded overlay" style="background-image: url('{% static "images/background.png" %}')">
+
     <footer id="footer" class="hoc clear">
         <!-- ################################################################################################ -->
         <div class="one_third first">

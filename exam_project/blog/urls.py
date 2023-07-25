@@ -9,7 +9,7 @@ urlpatterns = [
     path('about/', about_page, name='about'),
     path('all/', all_posts, name='all'),
     path('latest-posts/', latest_posts, name='latest_posts'),
-    path('category/<int:category_id>/', posts_by_category, name='posts_by_category'),
+    path('category/<int:category_id>/', page_by_category, name='posts_by_category'),
 
 ]
 
