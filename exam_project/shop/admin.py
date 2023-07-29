@@ -1,18 +1,18 @@
 from django.contrib import admin
-from .models import Product, ProductVariant, Cart, CartItem
+from .models import Product, ProductSize, Cart, CartItem
 
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'price',)
-    list_filter = ('name',)
+    list_display = ('sku', 'name', 'price', 'color')
+    list_filter = ('name', 'sku', 'color')
     ordering = ('name',)
 
 
-@admin.register(ProductVariant)
-class ProductVariantAdmin(admin.ModelAdmin):
-    list_display = ('id', 'product', 'size', 'color', 'stock')
-    list_filter = ('product', 'size', 'color')
+@admin.register(ProductSize)
+class ProductSizeAdmin(admin.ModelAdmin):
+    list_display = ('id', 'product', 'size', 'stock')
+    list_filter = ('product', 'size',)
     ordering = ('product',)
 
 
