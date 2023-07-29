@@ -7,8 +7,8 @@
     <h1 class="heading font-x3">Welcome, {{ user.username }}</h1>
     <p class="btmspace-30">Email: {{ user.email }}</p>
 
-      {% if user.profile_pic %}
-            <img class="profile-picture" src="{{ user.profile_pic.url }}" alt="Profile Picture">
+      {% if user.profile.profile_pic %}
+            <img class="profile-picture" src="{{ user.profile.profile_pic.url }}" alt="Profile Picture">
       {% else %}
             <p>No profile picture available</p>
       {% endif %}

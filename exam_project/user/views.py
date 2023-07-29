@@ -80,14 +80,14 @@ def edit_profile(request):
 
     if request.method == 'POST':
         user_form = UserEditForm(request.POST, instance=request.user)
-        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.profile) # change this line
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile_form.save()
             return redirect('profile')
     else:
         user_form = UserEditForm(instance=request.user)
-        profile_form = UserProfileForm(instance=request.user)
+        profile_form = UserProfileForm(instance=request.user.profile) # and this line
 
     context = {
         'user_form': user_form,
@@ -96,6 +96,7 @@ def edit_profile(request):
     }
 
     return render(request, 'user/edit_profile.html', context)
+
 
 
 @login_required

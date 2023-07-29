@@ -1,5 +1,10 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.conf import settings
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, User
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+
+from exam_project.shop.models import Cart
 
 
 class CustomUserManager(BaseUserManager):
@@ -31,10 +36,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     is_superuser = models.BooleanField(default=False)
 
-    # Additional fields specific to your project
-    bio = models.TextField(blank=True)
-    profile_pic = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
-
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
@@ -46,3 +47,19 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.username
+
+
+class Profile(models.Model):
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    bio = models.TextField(blank=True, null=True)
+    profile_pic = models.ImageField(upload_to='profile_pics', blank=True, null=True)
+    address = models.TextField(blank=True, null=True)
+    phone = models.CharField(max_length=20, blank=True, null=True)
+
+
+@receiver(post_save, sender=settings.AUTH_USER_MODEL)
+def create_user_cart(sender, instance, created, **kwargs):
+    if created:
+        Cart.objects.create(user=instance)
+
+

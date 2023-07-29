@@ -570,3 +570,15 @@ label {
     object-fit: cover;
     border-radius: 50%;
 }
+
+
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+.product {
+  flex-basis: calc(25.00% - 20px);
+  margin-bottom: 20px;
+}

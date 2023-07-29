@@ -1,0 +1,27 @@
+{% extends 'home-page.html' %}
+
+{% block content %}
+  <h2>Products</h2>
+  <div class="products">
+    {% for product in products %}
+      <div class="product">
+        <img src="{{ product.image.url }}" alt="{{ product.name }}">
+        <h3><a href="{% url 'shop:product_detail' product.pk %}">{{ product.name }}</a></h3>
+        <p>{{ product.price }} BGN</p>
+        <div class="product_variants">
+          {% for variant in product.productvariant_set.all %}
+            <div class="product_variant">
+              <p>Size: {{ variant.size }}, Color: {{ variant.color }}</p>
+              <a href="{% url 'shop:add_to_cart' product.pk variant.size variant.color %}">Add to cart</a>
+            </div>
+          {% endfor %}
+        </div>
+        <a href="{% url 'shop:product_detail' product.pk %}">View details</a>
+      </div>
+    {% empty %}
+      <p>No products available.</p>
+    {% endfor %}
+  </div>
+{% endblock %}
+
+
