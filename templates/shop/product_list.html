@@ -6,7 +6,7 @@
     {% for product in products %}
       <div class="product">
         <img src="{{ product.image.url }}" alt="{{ product.name }}">
-        <h3><a href="{% url 'shop:product_detail' product.pk %}">{{ product.name }}</a></h3>
+        <h3><a href="{% url 'shop:product_detail' product.pk %}">{{ product.name }}, {{ product.color }}</a></h3>
         <p>{{ product.price }} BGN</p>
         <div class="product_variants">
           {% for variant in product.productvariant_set.all %}

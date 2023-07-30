@@ -33,10 +33,11 @@ class ProductSize(models.Model):
 
 
 class Cart(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='cart')
+    profile = models.OneToOneField('user.Profile', null=True, on_delete=models.CASCADE, related_name='cart')
 
     def __str__(self):
-        return f'{self.user.username}\'s Cart'
+        return f'{self.profile.user.username}\'s Cart'
+
 
 
 class CartItem(models.Model):

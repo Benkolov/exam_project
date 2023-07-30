@@ -27,29 +27,34 @@ class CartView(DetailView):
 
 class AddToCartView(View):
     def get(self, request, *args, **kwargs):
-        try:
-            product = Product.objects.get(pk=kwargs.get('pk'))
-        except Product.DoesNotExist:
-            raise Http404(f"No Product found with pk {kwargs.get('pk')}")
+        product = get_object_or_404(Product, pk=kwargs.get('pk'))
+        product_size = get_object_or_404(ProductSize, product=product, size=kwargs.get('size'))
 
-        try:
-            product_variant = ProductSize.objects.get(product=product, size=kwargs.get('size'), color=kwargs.get('color'))
-        except ProductSize.DoesNotExist:
-            raise Http404(f"No ProductVariant found for Product {product.id} with size {kwargs.get('size')} and color {kwargs.get('color')}")
+        if hasattr(request.user, 'profile'):
+            profile = request.user.profile
+        else:
+            # Ако потребителят няма профил, създайте един или върнете грешка
+            # profile = Profile.objects.create(user=request.user) или
+            raise Http404("Profile does not exist")
 
-        cart_item, created = CartItem.objects.get_or_create(cart=request.user.profile.cart, product_variant=product_variant)
+        if hasattr(profile, 'cart'):
+            cart = profile.cart
+        else:
+            cart = Cart.objects.create(profile=profile)
+
+        cart_item, created = CartItem.objects.get_or_create(cart=cart, product_size=product_size)
         if not created:
             cart_item.quantity += 1
             cart_item.save()
         return redirect('cart')
 
 
-
 class RemoveFromCartView(View):
     def get(self, request, *args, **kwargs):
         product = get_object_or_404(Product, pk=kwargs.get('pk'))
-        product_variant = get_object_or_404(ProductSize, product=product, size=kwargs.get('size'), color=kwargs.get('color'))
-        cart_item = get_object_or_404(CartItem, cart=request.user.cart, product_variant=product_variant)
+        product_size = get_object_or_404(ProductSize, product=product, size=kwargs.get('size'))
+        cart_item = get_object_or_404(CartItem, cart=request.user.profile.cart, product_size=product_size)
         cart_item.delete()
         return redirect('cart')
+
 
