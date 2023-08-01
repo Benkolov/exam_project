@@ -3,6 +3,7 @@ from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from exam_project.blog.models import Post, Category, Tag, Comment
 from .forms import CommentForm
+from ..shop.models import Product
 
 
 def get_categories():
@@ -18,10 +19,13 @@ def home_page(request):
     posts = Post.objects.order_by('-created_at')[1:4]
     categories = get_categories()
 
+    latest_products = Product.objects.order_by('-id')[:4]
+
     context = {
         'latest_post': latest_post,
         'posts': posts,
         'categories': categories,
+        'latest_products': latest_products,
 
     }
 

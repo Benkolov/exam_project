@@ -1,6 +1,7 @@
 {% extends 'home-page.html' %}
 
 {% block content %}
+    <div class="wrapper row3">
 <main class="hoc container clear">
     <h2>{{ post.title }}</h2>
     <h2>Автор: {{ post.author }}</h2>
@@ -40,4 +41,5 @@
         <button type="submit" class="submit-btn">Submit</button>
     </form>
 </main>
+    </div>
 {% endblock %}

@@ -21,12 +21,11 @@ class CartAdmin(admin.ModelAdmin):
     list_display = ('get_username',)
 
     def get_username(self, obj):
-        return obj.user_profile.user.username
+        return obj.profile.user.username
     get_username.short_description = 'Username'  # Sets the column header in the admin interface
-
 
 
 @admin.register(CartItem)
 class CartItemAdmin(admin.ModelAdmin):
-    list_display = ('cart', 'product_variant', 'quantity')
-    list_filter = ('cart', 'product_variant')
+    list_display = ('cart', 'product_size', 'quantity')
+    list_filter = ('cart', 'product_size')

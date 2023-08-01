@@ -1,27 +1,30 @@
 {% extends 'home-page.html' %}
 
 {% block content %}
+    <main class="hoc container clear">
   <h2>Products</h2>
   <div class="products">
     {% for product in products %}
       <div class="product">
         <img src="{{ product.image.url }}" alt="{{ product.name }}">
-        <h3><a href="{% url 'shop:product_detail' product.pk %}">{{ product.name }}, {{ product.color }}</a></h3>
+        <h3><a href="{% url 'product_detail' product.slug %}">{{ product.name }}, {{ product.color }}</a></h3>
         <p>{{ product.price }} BGN</p>
         <div class="product_variants">
           {% for variant in product.productvariant_set.all %}
             <div class="product_variant">
               <p>Size: {{ variant.size }}, Color: {{ variant.color }}</p>
-              <a href="{% url 'shop:add_to_cart' product.pk variant.size variant.color %}">Add to cart</a>
+              <a href="{% url 'add_to_cart' product.slug variant.size %}">Add to cart</a>
             </div>
           {% endfor %}
         </div>
-        <a href="{% url 'shop:product_detail' product.pk %}">View details</a>
+        <footer><a class="btn" href="{% url 'product_detail' product.slug %}">View details &raquo;</a></footer>
+
       </div>
     {% empty %}
       <p>No products available.</p>
     {% endfor %}
   </div>
+    </main>
 {% endblock %}
 
 

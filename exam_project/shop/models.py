@@ -1,5 +1,5 @@
 from django.db import models
-from django.conf import settings
+from slugify import slugify
 
 
 class Product(models.Model):
@@ -9,6 +9,12 @@ class Product(models.Model):
     price = models.DecimalField(max_digits=6, decimal_places=2)
     image = models.ImageField(upload_to='products/', blank=True, null=True)
     color = models.CharField(max_length=50, blank=True, null=True)
+    slug = models.SlugField(null=True, blank=True, unique=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(f"{self.name}-{self.sku}")
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f'{self.name} - {self.sku}'
@@ -21,7 +27,6 @@ class ProductSize(models.Model):
         ('M', 'Medium'),
         ('L', 'Large'),
         ('XL', 'Extra Large'),
-        # добавете или премахнете размери, както е необходимо
     ]
 
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='sizes')
@@ -38,12 +43,18 @@ class Cart(models.Model):
     def __str__(self):
         return f'{self.profile.user.username}\'s Cart'
 
+    def total_price(self):
+        return sum(item.total_price() for item in self.items.all())
 
 
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
-    product_variant = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
+    product_size = models.ForeignKey(ProductSize, on_delete=models.CASCADE)
+    quantity = models.IntegerField(default=1)
 
     def __str__(self):
-        return f'{self.product_variant} x {self.quantity}'
+        return f'{self.cart.profile.user.username}\'s Cart Item'
+
+    def total_price(self):
+        return self.product_size.product.price * self.quantity
+

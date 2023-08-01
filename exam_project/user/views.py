@@ -6,6 +6,7 @@ from django.contrib.auth import logout as user_logout
 from .forms import UserRegistrationForm, UserEditForm, UserProfileForm
 
 from .. import settings
+
 from ..blog.views import get_categories
 
 
@@ -96,7 +97,6 @@ def edit_profile(request):
     }
 
     return render(request, 'user/edit_profile.html', context)
-
 
 
 @login_required

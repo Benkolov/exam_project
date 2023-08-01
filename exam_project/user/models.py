@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from slugify import slugify
 
 from exam_project.shop.models import Cart
 
@@ -55,11 +56,19 @@ class Profile(models.Model):
     profile_pic = models.ImageField(upload_to='profile_pics', blank=True, null=True)
     address = models.TextField(blank=True, null=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
+    slug = models.SlugField(unique=True, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.user.username)
+        super().save(*args, **kwargs)
 
 
 @receiver(post_save, sender=settings.AUTH_USER_MODEL)
 def create_user_cart(sender, instance, created, **kwargs):
     if created:
-        Cart.objects.create(user=instance)
+        Profile.objects.create(user=instance)
+        Cart.objects.create(profile=instance.profile)
+
 
 

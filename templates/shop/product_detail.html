@@ -1,6 +1,7 @@
 {% extends 'home-page.html' %}
 
 {% block content %}
+    <main class="hoc container clear">
   <h2>{{ product.name }}, {{ product.color }}</h2>
   <p>{{ product.description }}</p>
   <p>Price: {{ product.price }}</p>
@@ -12,10 +13,11 @@
     <div>
       <p>Size: {{ variant.size }}</p>
       <p>Stock: {{ variant.stock }}</p>
-      <a href="{% url 'shop:add_to_cart' product.pk variant.size %}">Add to Cart</a>
+      <a href="{% url 'add_to_cart' product.slug variant.size %}">Add to Cart</a>
     </div>
   {% empty %}
     <p>No sizes available for this product.</p>
   {% endfor %}
+    </main>
 {% endblock %}
 

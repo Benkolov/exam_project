@@ -1,16 +1,20 @@
 {% extends 'home-page.html' %}
 
 {% block content %}
+    <main class="hoc container clear">
   <h2>Your Cart</h2>
   {% for item in cart.items.all %}
     <div>
       <p>Product: {{ item.product_size.product.name }}, Size: {{ item.product_size.size }}</p>
       <p>Quantity: {{ item.quantity }}</p>
-      <a href="{% url 'shop:remove_from_cart' item.product_size.product.pk item.product_size.size %}">Remove from Cart</a>
+      <p>Total price: {{ cart.total_price }}</p>
+
+      <a href="{% url 'remove_from_cart' item.product_size.product.slug item.product_size.size %}">Remove from Cart</a>
     </div>
   {% empty %}
     <p>Your cart is empty.</p>
   {% endfor %}
+    </main>
 {% endblock %}
 
 
