@@ -610,3 +610,9 @@ label {
     max-width: 100%;
     height: auto;
 }
+
+
+input[type="text"] {
+    color: black;
+    background-color: white;
+}

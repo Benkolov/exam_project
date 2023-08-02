@@ -1,0 +1,29 @@
+{% extends 'home-page.html' %}
+
+{% block content %}
+
+<h2>Резултати от продуктите:</h2>
+
+{% if search_products %}
+    <ul>
+    {% for product in search_products %}
+        <li>{{ product.name }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Няма продукти, които да отговарят на вашата заявка за търсене.</p>
+{% endif %}
+
+<h2>Резултати от публикациите:</h2>
+
+{% if search_posts %}
+    <ul>
+    {% for post in search_posts %}
+        <li>{{ post.title }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>Няма публикации, които да отговарят на вашата заявка за търсене.</p>
+{% endif %}
+
+{% endblock %}

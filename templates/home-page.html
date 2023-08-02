@@ -80,17 +80,23 @@
 
 
 
+
                 <!-- PAGE INTRO -->
         <div id="pageintro" class="hoc clear">
     <article>
-      <h2 class="heading">ExoTerra Blog and Shop</h2>
-      <p>Открийте съкровището на галактиката - светът на екзопланетите!</p>
-      <footer>
-        <ul class="nospace inline pushright">
-          <li><a class="btn" href="#">Condimentum</a></li>
-          <li><a class="btn inverse" href="#">Maximus</a></li>
-        </ul>
-      </footer>
+{#      <h2 class="heading">ExoTerra Blog and Shop</h2>#}
+{#      <p>Открийте съкровището на галактиката - светът на екзопланетите!</p>#}
+
+                <form method="get" action="{% url 'search' %}">
+                {{ search_form }}
+                <input type="submit" value="Search">
+                </form>
+{#      <footer>#}
+{#        <ul class="nospace inline pushright">#}
+{#          <li><a class="btn" href="#">Condimentum</a></li>#}
+{#          <li><a class="btn inverse" href="#">Maximus</a></li>#}
+{#        </ul>#}
+{#      </footer>#}
     </article>
   </div>
 
