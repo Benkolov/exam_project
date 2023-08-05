@@ -7,7 +7,7 @@
 {% if search_products %}
     <ul>
     {% for product in search_products %}
-        <li>{{ product.name }}</li>
+        <li><a href="{% url 'product_detail' product.slug %}">{{ product.name }}</a></li>
     {% endfor %}
     </ul>
 {% else %}
@@ -19,7 +19,7 @@
 {% if search_posts %}
     <ul>
     {% for post in search_posts %}
-        <li>{{ post.title }}</li>
+        <li><a href="{% url 'post_detail' post.pk %}">{{ post.title }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

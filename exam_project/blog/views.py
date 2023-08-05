@@ -2,25 +2,12 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
 from exam_project.blog.models import Post, Category, Tag, Comment
-from exam_project.shop.models import Product
+
 from .forms import CommentForm
 from ..shop.models import Product
-# In your_app/context_processors.py
+
 
 from django.db.models import Q
-
-from .context_processors import search_form
-
-
-# def search_form(request):
-#     query = request.GET.get('q')
-#     if query:
-#         products = Product.objects.filter(Q(name__icontains=query))
-#         posts = Post.objects.filter(Q(title__icontains=query))
-#     else:
-#         products = Product.objects.none()
-#         posts = Post.objects.none()
-#     return {'search_products': products, 'search_posts': posts}
 
 
 def search_results(request):
@@ -37,13 +24,11 @@ def search_results(request):
 
     context = {
         'query': query,
-        'products': products,
-        'posts': posts,
+        'search_products': products,
+        'search_posts': posts,
     }
 
     return render(request, 'search_results.html', context)
-
-
 
 
 def get_categories():
