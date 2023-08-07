@@ -1,0 +1,16 @@
+Order Confirmation
+
+Thank you for your order, {{ user.first_name }} {{ user.last_name }}!
+
+Here are the details of your order:
+
+{% for item in items %}
+Product: {{ item.product_size.product.name }}
+Size: {{ item.product_size.size }}
+Quantity: {{ item.quantity }}
+Total price for this product: {{ item.total_price }}
+{% endfor %}
+
+Total price for all products: {{ total_price }}
+
+

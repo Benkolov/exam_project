@@ -1,19 +1,40 @@
 {% extends 'home-page.html' %}
 
-{% block content %}
-    <main class="hoc container clear">
-  <h2>Your Cart</h2>
-  {% for item in cart.items.all %}
-    <div>
-      <p>Product: {{ item.product_size.product.name }}, Size: {{ item.product_size.size }}</p>
-      <p>Quantity: {{ item.quantity }}</p>
-      <p>Total price: {{ cart.total_price }}</p>
 
-      <a href="{% url 'remove_from_cart' item.product_size.product.slug item.product_size.size %}">Remove from Cart</a>
+{% block content %}
+
+
+
+    <main class="hoc container clear">
+      {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+  <h2>Your Cart</h2>
+
+{% for item in cart.items.all %}
+    <div>
+        <p>Product: {{ item.product_size.product.name }}, Size: {{ item.product_size.size }}</p>
+        <p>Quantity:
+            <form method="post" action="{% url 'update_cart' slug=item.product_size.product.slug size=item.product_size.size %}">
+                {% csrf_token %}
+                <input type="number" name="quantity" min="1" value="{{ item.quantity }}">
+                <button type="submit">Update</button>
+            </form>
+        </p>
+        <p>Total price for this item: {{ item.total_price }}</p>
+        <a href="{% url 'remove_from_cart' item.product_size.product.slug item.product_size.size %}">Remove from Cart</a>
     </div>
-  {% empty %}
+{% empty %}
     <p>Your cart is empty.</p>
-  {% endfor %}
+{% endfor %}
+<p>Total price for all items: {{ cart.total_price }}</p>
+
+
+<form method="post" action="{% url 'complete_order' %}">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-primary">Complete Order</button>
+</form>
+
     </main>
 {% endblock %}
 

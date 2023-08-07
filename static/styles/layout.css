@@ -38,7 +38,7 @@
 
 /* Page Intro
 --------------------------------------------------------------------------------------------------------------- */
-#pageintro{padding:150px 0 70px;}/* Important to remove .topspacer padding from the bottom */
+#pageintro{padding:50px 0 50px;}/* Important to remove .topspacer padding from the bottom */
 
 #pageintro article{display:block; max-width:65%;}
 #pageintro article *{line-height:normal;}
@@ -615,4 +615,11 @@ label {
 input[type="text"] {
     color: black;
     background-color: white;
+}
+
+
+.gallery {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
 }

@@ -1,7 +1,8 @@
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError, ObjectDoesNotExist
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import render, get_object_or_404, redirect
-from exam_project.blog.models import Post, Category, Tag, Comment
+from exam_project.blog.models import Post, Category, Tag, Comment, News, Gallery
 
 from .forms import CommentForm
 from ..shop.models import Product
@@ -41,16 +42,18 @@ def get_categories():
 def home_page(request):
 
     latest_post = Post.objects.last()
-    posts = Post.objects.order_by('-created_at')[1:4]
+    posts = Post.objects.order_by('-created_at')[:4]
     categories = get_categories()
 
     latest_products = Product.objects.order_by('-id')[:4]
+    latest_news = News.objects.order_by('-id')[:4]
 
     context = {
         'latest_post': latest_post,
         'posts': posts,
         'categories': categories,
         'latest_products': latest_products,
+        'latest_news': latest_news,
 
     }
 
@@ -114,9 +117,9 @@ def about_page(request):
 
 
 @login_required
-def post_detail(request, pk):
+def post_detail(request, slug):
     categories = get_categories()
-    post = get_object_or_404(Post, pk=pk)
+    post = get_object_or_404(Post, slug=slug)
     comments = post.comment_set.all()
 
     if request.method == 'POST':
@@ -126,7 +129,7 @@ def post_detail(request, pk):
             comment.post = post
             comment.author = request.user
             comment.save()
-            return redirect('post_detail', pk=pk)
+            return redirect('post_detail', slug=slug)
     else:
         form = CommentForm()
 
@@ -141,38 +144,101 @@ def post_detail(request, pk):
 
 
 @login_required
-def delete_comment(request, post_pk, comment_pk):
+def delete_comment(request, content_type, content_pk, comment_pk):
+    if content_type == 'news':
+        content_object = get_object_or_404(News, pk=content_pk)
+    elif content_type == 'post':
+        content_object = get_object_or_404(Post, pk=content_pk)
+    else:
+        raise ObjectDoesNotExist
+
     comment = get_object_or_404(Comment, pk=comment_pk)
     if request.user == comment.author:
         comment.delete()
-        return redirect('post_detail', pk=post_pk)
+        return redirect(f'{content_type}_detail', slug=content_object.slug)
     else:
-        # Redirect to some error page or show an error message
         return HttpResponse("You don't have permission to delete this comment.")
 
 
 @login_required
-def edit_comment(request, post_pk, comment_pk):
-    categories = get_categories()
-    post = get_object_or_404(Post, pk=post_pk)
-    comment = get_object_or_404(Comment, pk=comment_pk)
+def edit_comment(request, content_type, content_pk, comment_pk):
+    if content_type == 'news':
+        content_object = get_object_or_404(News, pk=content_pk)
+    elif content_type == 'post':
+        content_object = get_object_or_404(Post, pk=content_pk)
+    else:
+        raise ObjectDoesNotExist
 
+    comment = get_object_or_404(Comment, pk=comment_pk)
     if request.user != comment.author:
         return HttpResponseForbidden("You don't have permission to edit this comment.")
 
     if request.method == 'POST':
         form = CommentForm(request.POST, instance=comment)
         if form.is_valid():
-            form.save()  # Save the changes to the existing comment
-            return redirect('post_detail', pk=post.pk)
+            form.save()
+            return redirect(f'{content_type}_detail', slug=content_object.slug)
     else:
         form = CommentForm(instance=comment)
 
     context = {
-        'post': post,
         'form': form,
-        'categories': categories,
     }
 
     return render(request, 'blog/edit-comment.html', context)
 
+
+def news_list(request):
+    news = News.objects.all().order_by('-created_at')
+
+    context = {
+        'news': news
+    }
+
+    return render(request, 'blog/news_list.html', context)
+
+
+def news_detail(request, slug):
+    news_item = get_object_or_404(News, slug=slug)
+    comments = news_item.comment_set.all()
+
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.news = news_item
+            comment.author = request.user
+            comment.save()
+            return redirect('news_detail', slug=slug)
+    else:
+        form = CommentForm()
+
+    context = {
+        'news_item': news_item,
+        'comments': comments,
+        'form': form,
+    }
+
+    return render(request, 'blog/news_detail.html', context)
+
+
+def gallery(request):
+    images = Gallery.objects.all().order_by('-created_at')
+
+    context = {
+        'images': images,
+    }
+
+    return render(request, 'blog/gallery.html', context)
+
+
+def news_by_tag(request, tag_slug):
+    tag = get_object_or_404(Tag, slug=tag_slug)
+    news = News.objects.filter(tags=tag)
+
+    context = {
+        'tag': tag,
+        'news': news,
+    }
+
+    return render(request, 'blog/news_by_tag.html', context)

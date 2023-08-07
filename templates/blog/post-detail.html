@@ -20,11 +20,10 @@
         <li class="comment-item">
             <p>{{ comment.content }} - {{ comment.author }}</p>
             {% if user.is_authenticated and user == comment.author %}
-                <!-- Add Edit Comment Form -->
-                <a href="{% url 'edit_comment' post_pk=post.pk comment_pk=comment.pk %}">Edit</a>
 
-                <!-- Add Delete Comment Form -->
-                <form method="post" action="{% url 'delete_comment' post.pk comment.pk %}">
+                <a href="{% url 'edit_comment' content_type='post' content_pk=post.pk comment_pk=comment.pk %}">Edit</a>
+                <form method="post" action="{% url 'delete_comment' content_type='post' content_pk=post.pk comment_pk=comment.pk %}">
+
                     {% csrf_token %}
                     <button type="submit" class="submit-btn">Delete</button>
                 </form>

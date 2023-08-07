@@ -10,7 +10,7 @@
         <h2 class="heading">{{ post.title }}</h2>
 
         <p class="post-content">>{{ post.content|truncatewords:50 }}</p>
-        <a href="{% url 'post_detail' post.pk %}">Read More</a>
+        <a href="{% url 'post_detail' post.slug %}">Read More</a>
         </li>
     {% endfor %}
     </ul>

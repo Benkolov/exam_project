@@ -1,0 +1,18 @@
+{% extends 'home-page.html' %}
+
+{% block content %}
+
+<main class="hoc container clear">
+    <h1>Всички новини</h1>
+    <ul class="news-list">
+        {% for news_item in news %}
+            <li class="news-item">
+                <h2>{{ news_item.title }}</h2>
+                <p class="news-content">{{ news_item.content|truncatewords:50 }}</p>
+                <p class="read-more"><a href="{% url 'news_detail' news_item.slug %}">Прочети повече &raquo;</a></p>
+            </li>
+        {% endfor %}
+    </ul>
+</main>
+
+{% endblock %}

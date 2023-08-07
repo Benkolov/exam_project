@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Category, Tag, Post, Comment
+from .models import Category, Tag, Post, Comment, News, Gallery
 
 
 @admin.register(Category)
@@ -23,4 +23,11 @@ class TagAdmin(admin.ModelAdmin):
     pass
 
 
+@admin.register(News)
+class NewsAdmin(admin.ModelAdmin):
+    list_display = ['title', 'author', 'created_at']
 
+
+@admin.register(Gallery)
+class GalleryAdmin(admin.ModelAdmin):
+    pass
