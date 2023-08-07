@@ -10,22 +10,28 @@ from .models import Product, ProductSize, Cart, CartItem
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
+from ..blog.views import get_categories
+
 
 def product_list_view(request):
+    categories = get_categories()
     products = Product.objects.all()
 
     context = {
         'products': products,
+        'categories': categories,
     }
 
     return render(request, 'shop/product_list.html', context)
 
 
 def product_detail_view(request, slug):
+    categories = get_categories()
     product = get_object_or_404(Product, slug=slug)
 
     context = {
         'product': product,
+        'categories': categories,
     }
 
     return render(request, 'shop/product_detail.html', context)
@@ -33,6 +39,8 @@ def product_detail_view(request, slug):
 
 @login_required
 def cart_view(request):
+    categories = get_categories()
+
     if not hasattr(request.user, 'profile'):
         raise Http404("Profile does not exist")
     cart = request.user.profile.cart
@@ -41,10 +49,10 @@ def cart_view(request):
         item.total_price = item.quantity * item.product_size.product.price
     context = {
         'cart': cart,
-        'cart_items': cart_items
+        'cart_items': cart_items,
+        'categories': categories,
     }
     return render(request, 'shop/cart.html', context)
-
 
 
 @login_required
@@ -77,7 +85,6 @@ def remove_from_cart_view(request, slug, size):
     cart_item = get_object_or_404(CartItem, cart=request.user.profile.cart, product_size=product_size)
     cart_item.delete()
     return redirect('cart')
-
 
 
 @login_required

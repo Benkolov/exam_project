@@ -12,6 +12,7 @@ from django.db.models import Q
 
 
 def search_results(request):
+    categories = get_categories()
     query = request.GET.get('q')
 
     if query:
@@ -27,6 +28,7 @@ def search_results(request):
         'query': query,
         'search_products': products,
         'search_posts': posts,
+        'categories': categories
     }
 
     return render(request, 'search_results.html', context)
@@ -95,12 +97,14 @@ def page_by_category(request, category_id):
 
 
 def posts_by_tag(request, tag_slug):
+    categories = get_categories()
     tag = get_object_or_404(Tag, slug=tag_slug)
     posts = Post.objects.filter(tags=tag)
 
     context = {
         'tag': tag,
         'posts': posts,
+        'categories': categories,
     }
 
     return render(request, 'blog/posts_by_tag.html', context)
@@ -189,16 +193,19 @@ def edit_comment(request, content_type, content_pk, comment_pk):
 
 
 def news_list(request):
+    categories = get_categories()
     news = News.objects.all().order_by('-created_at')
 
     context = {
-        'news': news
+        'news': news,
+        'categories': categories,
     }
 
     return render(request, 'blog/news_list.html', context)
 
 
 def news_detail(request, slug):
+    categories = get_categories()
     news_item = get_object_or_404(News, slug=slug)
     comments = news_item.comment_set.all()
 
@@ -217,28 +224,33 @@ def news_detail(request, slug):
         'news_item': news_item,
         'comments': comments,
         'form': form,
+        'categories': categories,
     }
 
     return render(request, 'blog/news_detail.html', context)
 
 
 def gallery(request):
+    categories = get_categories()
     images = Gallery.objects.all().order_by('-created_at')
 
     context = {
         'images': images,
+        'categories': categories,
     }
 
     return render(request, 'blog/gallery.html', context)
 
 
 def news_by_tag(request, tag_slug):
+    categories = get_categories()
     tag = get_object_or_404(Tag, slug=tag_slug)
     news = News.objects.filter(tags=tag)
 
     context = {
         'tag': tag,
         'news': news,
+        'categories': categories
     }
 
     return render(request, 'blog/news_by_tag.html', context)
