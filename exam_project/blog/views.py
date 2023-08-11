@@ -48,7 +48,7 @@ def home_page(request):
     categories = get_categories()
 
     latest_products = Product.objects.order_by('-id')[:4]
-    latest_news = News.objects.order_by('-id')[:4]
+    latest_news = News.objects.order_by('-id')[:2]
 
     context = {
         'latest_post': latest_post,

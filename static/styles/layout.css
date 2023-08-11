@@ -436,9 +436,7 @@ table a, #comments a{background-color:inherit;}
 }
 
 
-/* styles.css (or your custom CSS file) */
 
-/* Profile Details Page Styles */
 .profile-details {
   text-align: center;
   margin: 40px auto;
@@ -477,7 +475,7 @@ table a, #comments a{background-color:inherit;}
 }
 
 
-/* Стилове за формите */
+
 form {
   max-width: 500px;
   margin: 0 auto;
@@ -507,7 +505,7 @@ form input[type="submit"] {
   cursor: pointer;
 }
 
-/* Стилове за заглавията на полетата */
+
 label {
   display: block;
   font-size: 18px;
@@ -515,20 +513,18 @@ label {
   margin-bottom: 5px;
 }
 
-/* Опционално: Стилове за грешки валидация, ако са предоставени */
+
 .error {
   color: #FF0000;
   font-size: 14px;
 }
 
-/* Опционално: Стилове за успех при запис */
+
 .success {
   color: #008000;
   font-size: 14px;
 }
 
-
-/* Стилове за страницата с публикациите */
 
 .post-list {
     list-style: none;

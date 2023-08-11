@@ -83,26 +83,20 @@
 
                 <!-- PAGE INTRO -->
         <div id="pageintro" class="hoc clear">
-            <main class="center">
-    <article>
-{#      <h2 class="heading">ExoTerra Blog and Shop</h2>#}
-{#      <p>Открийте съкровището на галактиката - светът на екзопланетите!</p>#}
 
-                <form method="get" action="{% url 'search' %}">
-                {{ search_form }}
-                <input type="submit" value="Search">
-                </form>
-{#      <footer>#}
-{#        <ul class="nospace inline pushright">#}
-{#          <li><a class="btn" href="#">Condimentum</a></li>#}
-{#          <li><a class="btn inverse" href="#">Maximus</a></li>#}
-{#        </ul>#}
-{#      </footer>#}
-    </article>
+            <main>
+                <article>
+                    <form method="get" action="{% url 'search' %}">
+                    {{ search_form }}
+                    <input type="submit" value="Search">
+                    </form>
+                </article>
             </main>
-  </div>
 
-</div>
+        </div>
+
+
+    </div>
 
 
 
@@ -113,17 +107,18 @@
 
                 <!-- NEWS -->
     <div class="wrapper row3">
-    <main class="hoc container clear">
-        <h2 class="heading">Новини</h2>
-        {% for news in latest_news %}
-               <article class="one_quarter">
-                    <h6 class="heading font-x3">{{ news.title|truncatechars:20 }}</h6>
-                    <p class="btmspace-30">{{ news.content|truncatechars:200 }} <a href="{% url 'news_detail' news.slug %}">[&hellip;]</a></p>
-                    <footer><a class="btn" href="{% url 'news_detail' news.slug %}">Read More &raquo;</a></footer>
-                </article>
+        <main class="hoc container clear">
+            <h2 class="heading">Новини</h2>
+                {% for news in latest_news %}
 
-            {% endfor %}
-    </main>
+                    <article class="one_half post-item">
+                        <h6 class="heading font-x2">{{ news.title|truncatechars:40 }}</h6>
+                        <p class="btmspace-50">{{ news.content|truncatechars:300 }} <a href="{% url 'news_detail' news.slug %}">[&hellip;]</a></p>
+                        <footer><a class="btn" href="{% url 'news_detail' news.slug %}">Read More &raquo;</a></footer>
+                    </article>
+
+                {% endfor %}
+        </main>
     </div>
 
 
@@ -135,8 +130,8 @@
 
             {% for post in posts %}
 
-            <article class="one_quarter">
-                <h6 class="heading">{{ post.title |truncatechars:20 }} <a href="#">{{ post.category|truncatewords:1 }}</a></h6>
+            <article class="one_quarter post-item">
+                <h6 class="heading">{{ post.title |truncatechars:50 }} </h6>
 
                 {% if post.photo %}
                     <img class="btmspace-15" src="{{ post.photo.url }}" alt="{{ post.title }}">
@@ -178,9 +173,9 @@
 <div class="topspacer bgded overlay" style="background-image: url('{% static "images/3.png" %}')">
 
     <footer id="footer" class="hoc clear">
-        <!-- ################################################################################################ -->
-        <div class="one_third first">
-            <h6 class="heading">ExoTerra Chronicles</h6>
+
+        <div class="one_half">
+            <h6 class="heading">ExoTerra Blog and Shop</h6>
             <nav>
                 <ul class="nospace">
                     <li><a href="{% url 'home' %}"><i class="fa fa-lg fa-home"></i></a></li>
@@ -204,8 +199,8 @@
                 <li><a class="faicon-vk" href="#"><i class="fa fa-vk"></i></a></li>
             </ul>
         </div>
-        <div class="one_third">
-            <h6 class="heading">Enim nunc vulputate ut</h6>
+        <div class="one_half">
+            <h6 class="heading">Контакти</h6>
             <ul class="nospace linklist contact">
                 <li><i class="fa fa-map-marker"></i>
                     <address>
@@ -217,30 +212,30 @@
                 <li><i class="fa fa-envelope-o"></i> info@domain.com</li>
             </ul>
         </div>
-        <div class="one_third">
-            <h6 class="heading">Ac hendrerit euismod</h6>
-            <ul class="nospace linklist">
-                <li>
-                    <article>
-                        <h2 class="nospace font-x1"><a href="#">Quam nulla vel aliquam sem</a></h2>
-                        <time class="font-xs block btmspace-10" datetime="2045-04-06">Friday, 6<sup>th</sup> April 2045
-                        </time>
-                        <p class="nospace">Elit praesent laoreet rutrum placerat suspendisse suscipit ex ut nibh <a
-                                href="#">[&hellip;]</a></p>
-                    </article>
-                </li>
-                <li>
-                    <article>
-                        <h2 class="nospace font-x1"><a href="#">Aliquet arcu adipiscing</a></h2>
-                        <time class="font-xs block btmspace-10" datetime="2045-04-05">Thursday, 5<sup>th</sup> April
-                            2045
-                        </time>
-                        <p class="nospace">Tortor laoreet praesent nec molestie justo ut non consequat tortor iaculis <a
-                                href="#">[&hellip;]</a></p>
-                    </article>
-                </li>
-            </ul>
-        </div>
+{#        <div class="one_third">#}
+{#            <h6 class="heading">Ac hendrerit euismod</h6>#}
+{#            <ul class="nospace linklist">#}
+{#                <li>#}
+{#                    <article>#}
+{#                        <h2 class="nospace font-x1"><a href="#">Quam nulla vel aliquam sem</a></h2>#}
+{#                        <time class="font-xs block btmspace-10" datetime="2045-04-06">Friday, 6<sup>th</sup> April 2045#}
+{#                        </time>#}
+{#                        <p class="nospace">Elit praesent laoreet rutrum placerat suspendisse suscipit ex ut nibh <a#}
+{#                                href="#">[&hellip;]</a></p>#}
+{#                    </article>#}
+{#                </li>#}
+{#                <li>#}
+{#                    <article>#}
+{#                        <h2 class="nospace font-x1"><a href="#">Aliquet arcu adipiscing</a></h2>#}
+{#                        <time class="font-xs block btmspace-10" datetime="2045-04-05">Thursday, 5<sup>th</sup> April#}
+{#                            2045#}
+{#                        </time>#}
+{#                        <p class="nospace">Tortor laoreet praesent nec molestie justo ut non consequat tortor iaculis <a#}
+{#                                href="#">[&hellip;]</a></p>#}
+{#                    </article>#}
+{#                </li>#}
+{#            </ul>#}
+{#        </div>#}
         <!-- ################################################################################################ -->
     </footer>
 </div>

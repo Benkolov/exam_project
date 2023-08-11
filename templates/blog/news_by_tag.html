@@ -4,9 +4,9 @@
 
     <main class="hoc container clear">
     <h1>Всички новини с таг "{{ tag.name }}":</h1>
-    <ul class="news-list">
+    <ul class="post-list">
     {% for news_item in news %}
-        <li class="news-item">
+        <li class="post-item">
         <h2 class="heading">{{ news_item.title }}</h2>
 
         <p class="news-content">{{ news_item.content|truncatewords:50 }}</p>
