@@ -16,7 +16,7 @@ SECRET_KEY = 'django-insecure-$1lu!=3t@eim9uvcsvusxpcneb%9n=4rh^hmx)h(c&3(f=1&r4
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -57,7 +57,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'exam_project.blog.context_processors.search_form',  # Add this line
+                'exam_project.blog.context_processors.search_form',
             ],
         },
     },
